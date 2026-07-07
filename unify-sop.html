@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unify Health — Specialty SOP Reference</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F5F4F0;color:#1a1a1a;min-height:100vh;}
+.top{background:#fff;border-bottom:1px solid #E5E4E0;padding:16px 20px;position:sticky;top:0;z-index:100;}
+.top-inner{max-width:900px;margin:0 auto;}
+.logo{font-size:17px;font-weight:600;color:#1a1a1a;margin-bottom:12px;}
+.logo span{color:#0F6E56;}
+.search-wrap{position:relative;}
+.search-wrap input{width:100%;padding:10px 16px 10px 38px;border:1px solid #E5E4E0;border-radius:8px;font-size:14px;background:#F5F4F0;outline:none;}
+.search-wrap input:focus{border-color:#0F6E56;background:#fff;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#999;font-size:16px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #E5E4E0;background:#fff;color:#666;cursor:pointer;transition:all 0.15s;}
+.filter-btn.active{background:#0F6E56;color:#fff;border-color:#0F6E56;}
+.main{max-width:900px;margin:0 auto;padding:20px;}
+.progress{background:#fff;border:1px solid #E5E4E0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#666;}
+.progress strong{color:#1a1a1a;}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.card{background:#fff;border:1px solid #E5E4E0;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.15s;}
+.card:hover{border-color:#ccc;}
+.card.open{border-color:#1a1a1a;}
+.card-top{padding:14px 16px;}
+.card-header{display:flex;align-items:flex-start;gap:10px;}
+.card-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-teal{background:#E1F5EE;color:#0F6E56;}
+.icon-purple{background:#EEEDFE;color:#534AB7;}
+.icon-blue{background:#E6F1FB;color:#185FA5;}
+.card-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:2px;}
+.card-sub{font-size:12px;color:#888;}
+.badge-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+.badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;}
+.b-locked{background:#EAF3DE;color:#3B6D11;}
+.b-triage{background:#FFF3CD;color:#856404;}
+.b-direct{background:#E1F5EE;color:#0F6E56;}
+.b-adults{background:#FAECE7;color:#993C1D;}
+.b-all{background:#EEEDFE;color:#534AB7;}
+.expand-hint{font-size:12px;color:#aaa;margin-top:8px;}
+.card-body{display:none;border-top:1px solid #F0EFE8;padding:0;}
+.card.open .card-body{display:block;}
+.section{border-bottom:1px solid #F0EFE8;}
+.section:last-child{border-bottom:none;}
+.sec-head{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;user-select:none;}
+.sec-head:hover{background:#FAFAF8;}
+.sec-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
+.sn-teal{background:#E1F5EE;color:#0F6E56;}
+.sn-purple{background:#EEEDFE;color:#534AB7;}
+.sn-blue{background:#E6F1FB;color:#185FA5;}
+.sn-amber{background:#FFF3CD;color:#856404;}
+.sn-red{background:#FAECE7;color:#993C1D;}
+.sec-title{font-size:13px;font-weight:500;color:#1a1a1a;flex:1;}
+.sec-chev{font-size:13px;color:#aaa;transition:transform 0.2s;}
+.section.sec-open .sec-chev{transform:rotate(180deg);}
+.sec-body{display:none;padding:4px 16px 12px 16px;}
+.section.sec-open .sec-body{display:block;}
+ul.r{list-style:none;padding:0;}
+ul.r li{font-size:13px;color:#333;padding:3px 0 3px 14px;position:relative;line-height:1.5;}
+ul.r li::before{content:"·";position:absolute;left:3px;color:#bbb;}
+ul.r li.red{color:#993C1D;}
+ul.r li.red::before{content:"!";left:2px;font-weight:700;color:#993C1D;}
+ul.r li.grn{color:#3B6D11;}
+ul.r li.grn::before{content:"✓";left:1px;font-size:10px;color:#3B6D11;}
+.sub-lbl{font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:0.05em;margin:8px 0 4px;}
+.alert{border-radius:6px;padding:8px 12px;font-size:12px;line-height:1.5;margin:6px 0;}
+.alert.red{background:#FAECE7;color:#993C1D;}
+.alert.amber{background:#FFF3CD;color:#856404;}
+.alert.teal{background:#E1F5EE;color:#0F6E56;}
+.alert.blue{background:#E6F1FB;color:#185FA5;}
+.alert.purple{background:#EEEDFE;color:#534AB7;}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-top:6px;}
+.pc{background:#F5F4F0;border-radius:6px;padding:8px 10px;}
+.pc.ep{border-left:3px solid #185FA5;}
+.pc.tmpl{border-left:3px solid #856404;}
+.pc.new{border-left:3px solid #0F6E56;}
+.pc-name{font-size:12px;font-weight:600;color:#1a1a1a;}
+.pc-detail{font-size:11px;color:#666;margin-top:2px;line-height:1.4;}
+.tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:20px;font-weight:600;margin:4px 0 2px;}
+.tag.g{background:#EAF3DE;color:#3B6D11;}
+.tag.r{background:#FAECE7;color:#993C1D;}
+.do{font-size:11px;color:#3B6D11;line-height:1.5;}
+.dont{font-size:11px;color:#993C1D;line-height:1.5;}
+.ped-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:6px;}
+.ped-c{border-radius:6px;padding:8px 10px;}
+.ped-c.yes{background:#EAF3DE;border:1px solid #C2DFA8;}
+.ped-c.lim{background:#FFF3CD;border:1px solid #F2C97E;}
+.ped-c.no{background:#FAECE7;border:1px solid #F2B8A8;}
+.ped-c .pdr{font-size:12px;font-weight:600;color:#1a1a1a;}
+.ped-c .prl{font-size:11px;margin-top:2px;line-height:1.3;}
+.ped-c.yes .prl{color:#3B6D11;}
+.ped-c.lim .prl{color:#856404;}
+.ped-c.no .prl{color:#993C1D;}
+.flow-step{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #F0EFE8;}
+.flow-step:last-child{border-bottom:none;}
+.fs-num{width:20px;height:20px;border-radius:50%;background:#E1F5EE;color:#0F6E56;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.fs-num.blue{background:#E6F1FB;color:#185FA5;}
+.fs-text{font-size:12px;color:#333;line-height:1.5;}
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:6px;}
+.sc{border-radius:6px;padding:8px 10px;}
+.sc.app{background:#EAF3DE;border:1px solid #C2DFA8;}
+.sc.pend{background:#FFF3CD;border:1px solid #F2C97E;}
+.sc.dec{background:#FAECE7;border:1px solid #F2B8A8;}
+.sc .sl{font-size:11px;font-weight:600;}
+.sc.app .sl{color:#3B6D11;}
+.sc.pend .sl{color:#856404;}
+.sc.dec .sl{color:#993C1D;}
+.sc .sd{font-size:11px;color:#555;margin-top:3px;line-height:1.3;}
+.esc{background:#F5F4F0;border-radius:6px;padding:8px 10px;margin-top:6px;}
+.esc-name{font-size:12px;font-weight:600;color:#1a1a1a;}
+.esc-when{font-size:11px;color:#666;margin-top:2px;line-height:1.5;}
+.no-results{text-align:center;padding:3rem;color:#888;font-size:14px;}
+.price-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.price-c{background:#F5F4F0;border-radius:6px;padding:8px 12px;}
+.price-amt{font-size:15px;font-weight:600;color:#1a1a1a;}
+.price-lbl{font-size:11px;color:#888;margin-top:1px;}
+footer{text-align:center;padding:2rem;font-size:12px;color:#aaa;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-inner">
+    <div class="logo">Unify <span>Health</span> — Specialty SOP Reference</div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Search specialty, doctor, condition..." oninput="filter()">
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="setF('all',this)">All specialties</button>
+      <button class="filter-btn" onclick="setF('triage',this)">Triage required</button>
+      <button class="filter-btn" onclick="setF('direct',this)">Book directly</button>
+      <button class="filter-btn" onclick="setF('adults',this)">Adults only</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="progress">
+    <strong>9 of 9 specialties complete</strong> — Cardiology · Dermatology · Urology · ENT · Internal Medicine · Allergy & Immunology · Plastic Surgery · Oculoplastic Surgery · Sports Medicine & Physiatry
+  </div>
+
+  <div class="cards" id="cards">
+
+    <!-- ======= CARDIOLOGY ======= -->
+    <div class="card" data-id="cardiology" data-triage="false" data-adults="true"
+      data-search="cardiology ecg echo holter stress gxt ep electrophysiology vinay garg ozier katsikeris kushwaha yared kumar ankit garg cardiac diagnostics echocardiogram">
+      <div class="card-top" onclick="toggleCard('cardiology')">
+        <div class="card-header">
+          <div class="card-icon icon-teal">🫀</div>
+          <div>
+            <div class="card-title">Cardiology</div>
+            <div class="card-sub">Adult Cardiology & Cardiac Diagnostics</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly</span>
+          <span class="badge b-adults">Adults only · No under 18</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-cardiology">
+
+        <div class="section sec-open" id="c-s1">
+          <div class="sec-head" onclick="toggleSec('c-s1')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Age & scope</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert red"><strong>🚫 No patients under 18</strong> for any cardiac diagnostic test or ECG. Age must be verified at intake.</div>
+            <ul class="r" style="margin-top:6px;">
+              <li>Cardiology consults & EP consults</li>
+              <li>ECG / EKG · Echocardiogram · Stress Echo (SE) · GXT</li>
+              <li>Holter monitoring — 24h / 48h / 72h / 14-day</li>
+              <li>Blood pressure monitor (patient-paid $75)</li>
+              <li>Hospital follow-ups · KMH PMIBI</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="c-s2">
+          <div class="sec-head" onclick="toggleSec('c-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake steps</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Verify patient age, provider, service requested, required tests</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Upload referral into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Add patient to Cardiology Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">4</span><span class="fs-text">Document: cardiac diagnostic services and consult type on waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">5</span><span class="fs-text">Assign referral category: consult / consult + diagnostics / cardiac diagnostic services / EP consult / follow-up</span></div>
+          </div>
+        </div>
+
+        <div class="section" id="c-s3">
+          <div class="sec-head" onclick="toggleSec('c-s3')">
+            <span class="sec-num sn-teal">3</span>
+            <span class="sec-title">Diagnostic-first policy</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="sub-lbl">Standard package before consult</div>
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Echocardiogram (first)</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">ECG</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">72-hour Holter monitor</span></div>
+            <div class="flow-step"><span class="fs-num">4</span><span class="fs-text">Cardiology consult (after all diagnostics)</span></div>
+            <div class="sub-lbl">ECG rule</div>
+            <ul class="r">
+              <li class="grn">ECG with ALL consults & follow-ups unless explicitly declined by cardiologist</li>
+              <li class="grn">If no ECG in last 6 months → automatically book ECG</li>
+            </ul>
+            <div class="sub-lbl">Holter rules</div>
+            <ul class="r">
+              <li>Book consult 3–4 business days after holter return</li>
+              <li>DR-400 & M-Health: results 3 days after return</li>
+              <li>Myant: results 1 week after return</li>
+              <li class="red">Holter cannot be booked same-day with consult</li>
+            </ul>
+            <div class="sub-lbl">Same-day consult (elderly / long-distance / established patients only)</div>
+            <ul class="r">
+              <li class="grn">Same-day diagnostics allowed: Echo + ECG + Stress Echo only</li>
+              <li class="red">No Holter same-day with consult</li>
+              <li class="red">No ECG same-day with Stress Echo or GXT</li>
+              <li class="red">No Echo same-day with Stress Echo</li>
+              <li>30-min buffer between diagnostics and consult</li>
+              <li>Add Accuro pop-up: "Same-day diagnostics and consult scheduled – ensure results reviewed prior to consult"</li>
+            </ul>
+            <div class="sub-lbl">EP consult pathway</div>
+            <ul class="r">
+              <li>Book ECG + EP consult only</li>
+              <li class="red">No echo or holter for EP consults unless explicitly ordered</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="c-s4">
+          <div class="sec-head" onclick="toggleSec('c-s4')">
+            <span class="sec-num sn-amber">4</span>
+            <span class="sec-title">Cardiologist-specific rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="sub-lbl">Standard: New consult 30 min · Follow-up 15 min</div>
+            <div class="pgrid">
+              <div class="pc ep"><div class="pc-name">Dr. Vinay Garg</div><div class="pc-detail">EP consults (electrophysiology & arrhythmia) · Wednesdays · 30/15 min · Billing: Holter, BP, ECG, GXT</div></div>
+              <div class="pc ep"><div class="pc-name">Dr. Daniel Ozier</div><div class="pc-detail">EP consults · ~3 wks/month, 2 days/wk · 30/15 min · Michael Garron Hospital follow-ups</div></div>
+              <div class="pc"><div class="pc-name">Dr. Sameer Kushwaha</div><div class="pc-detail">Tue & Thu · 30/15 min · Michael Garron follow-ups · Billing: Echo, Stress Echo</div></div>
+              <div class="pc"><div class="pc-name">Dr. Reha Kumar</div><div class="pc-detail">30/15 min</div></div>
+              <div class="pc tmpl"><div class="pc-name">Dr. Katsikeris</div><div class="pc-detail">Mon & some Tue · Follow Accuro template exactly — do not override</div></div>
+              <div class="pc"><div class="pc-name">Dr. Kibar Yared</div><div class="pc-detail">Monthly · Consult 20 min · Follow-up 10 min</div></div>
+              <div class="pc new"><div class="pc-name">Dr. Ankit Garg</div><div class="pc-detail">Follow-ups only — no new consults</div></div>
+            </div>
+            <div class="alert amber" style="margin-top:8px;">EP consults: Dr. Vinay Garg & Dr. Ozier only. Dr. Katsikeris: always follow the Accuro template.</div>
+          </div>
+        </div>
+
+        <div class="section" id="c-s5">
+          <div class="sec-head" onclick="toggleSec('c-s5')">
+            <span class="sec-num sn-teal">5</span>
+            <span class="sec-title">Billing providers</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li><strong>Dr. Vinay Garg</strong> — Holter monitors · BP monitor · ECG · GXT</li>
+              <li><strong>Dr. Sameer Kushwaha</strong> — Echocardiogram · Stress Echo</li>
+              <li>Cardiac consult: assign all cardiac tests to the same cardiologist as the consult</li>
+            </ul>
+            <div class="sub-lbl">Cerebrum required fields</div>
+            <ul class="r">
+              <li>Last name · First name · DOB · OHIP + version code · Gender · Family doctor · Phone</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="c-s6">
+          <div class="sec-head" onclick="toggleSec('c-s6')">
+            <span class="sec-num sn-amber">6</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Referral questions → Aleja or Anadi</div><div class="esc-when">Anything unclear · Referral/waitlist/tasks don't align · Instructions missing · Patient refuses ECG · Consult-only request without approval</div></div>
+            <div class="esc"><div class="esc-name">Diagnostic issues → Bhumika</div><div class="esc-when">Any issues with diagnostic testing workflow · Sequencing conflicts</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="c-s7">
+          <div class="sec-head" onclick="toggleSec('c-s7')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Never book patients under 18 for any cardiac diagnostic</li>
+              <li class="red">Always verify age at intake</li>
+              <li class="red">Diagnostics must always be booked before consult</li>
+              <li class="red">ECG auto-booked if no ECG in last 6 months</li>
+              <li class="red">No Holter same-day with consult</li>
+              <li class="red">No ECG same-day with Stress Echo or GXT</li>
+              <li class="red">No Echo same-day with Stress Echo</li>
+              <li class="red">EP consults: Dr. Vinay Garg & Dr. Ozier only</li>
+              <li class="red">Dr. Katsikeris: always follow Accuro template</li>
+              <li class="red">Never override waitlist instructions</li>
+              <li class="red">If not documented, it did not happen</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======= DERMATOLOGY ======= -->
+    <div class="card" data-id="dermatology" data-triage="false" data-adults="false"
+      data-search="dermatology skin hair loss acne eczema psoriasis botox cosmetic winnicki chung masson sandre ghossi maximous dill bosworth pediatric nail hidradenitis patch testing rash mole lesion">
+      <div class="card-top" onclick="toggleCard('dermatology')">
+        <div class="card-header">
+          <div class="card-icon icon-purple">🧴</div>
+          <div>
+            <div class="card-title">Dermatology</div>
+            <div class="card-sub">General Derm, Hair Loss, Cosmetics & Pediatrics</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly</span>
+          <span class="badge b-all">All ages (select providers)</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-dermatology">
+
+        <div class="section sec-open" id="d-s1">
+          <div class="sec-head" onclick="toggleSec('d-s1')">
+            <span class="sec-num sn-amber">★</span>
+            <span class="sec-title">Pediatric quick reference</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="ped-grid">
+              <div class="ped-c yes"><div class="pdr">Dr. Winnicki</div><div class="prl">✓ No age limit — all conditions</div></div>
+              <div class="ped-c lim"><div class="pdr">Dr. Dill</div><div class="prl">⚠ Age 14+ only</div></div>
+              <div class="ped-c lim"><div class="pdr">Dr. Maximous</div><div class="prl">⚠ Age 14+ only</div></div>
+              <div class="ped-c lim"><div class="pdr">Dr. Ghossi</div><div class="prl">⚠ Age 14+ · Acne ONLY</div></div>
+              <div class="ped-c lim"><div class="pdr">Dr. Chung</div><div class="prl">⚠ Age 14+ · Acne ONLY</div></div>
+              <div class="ped-c no"><div class="pdr">Dr. Bosworth</div><div class="prl">✗ No pediatrics</div></div>
+              <div class="ped-c no"><div class="pdr">Dr. Sandre</div><div class="prl">✗ No pediatrics</div></div>
+              <div class="ped-c no"><div class="pdr">Dr. Masson</div><div class="prl">✗ No pediatrics</div></div>
+            </div>
+            <div class="alert red" style="margin-top:8px;"><strong>Dr. Ghossi & Dr. Chung age 14+:</strong> Acne patients ONLY. Do not book any other concern for pediatric patients.</div>
+          </div>
+        </div>
+
+        <div class="section" id="d-s2">
+          <div class="sec-head" onclick="toggleSec('d-s2')">
+            <span class="sec-num sn-amber">2</span>
+            <span class="sec-title">Hair loss — triage & pricing</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert purple"><strong>All hair loss = private pay by default.</strong> Never tell patients hair loss may be OHIP-covered.</div>
+            <div class="price-row">
+              <div class="price-c"><div class="price-amt">$250 + tax</div><div class="price-lbl">Initial consult</div></div>
+              <div class="price-c"><div class="price-amt">$100 + tax</div><div class="price-lbl">Follow-up</div></div>
+            </div>
+            <div class="sub-lbl">Do NOT book hair loss with</div>
+            <ul class="r"><li class="red">Dr. Winnicki · Dr. Masson · Dr. Chung · Dr. Maximous · Dr. Ghossi · Dr. Bosworth</li></ul>
+            <div class="sub-lbl">Hair loss providers</div>
+            <ul class="r">
+              <li><strong>Dr. Dill</strong> — all hair loss types (private pay)</li>
+              <li><strong>Dr. Sandre</strong> — male pattern only, PRP/mesotherapy consults only</li>
+            </ul>
+            <div class="alert amber"><strong>Dr. Ghossi hair loss follow-ups:</strong> Send task to Dr. Ghossi for approval before booking any follow-up.</div>
+          </div>
+        </div>
+
+        <div class="section" id="d-s3">
+          <div class="sec-head" onclick="toggleSec('d-s3')">
+            <span class="sec-num sn-purple">3</span>
+            <span class="sec-title">Provider-specific rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Winnicki</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Confirm availability before booking</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Pediatrics (all ages) · Eczema · Lesions · Warts · AK · SK · Acne · Psoriasis · Genital areas (confirm first)</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Hair loss · General skin checks · Nail concerns</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Chung</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Consult/FU: 15 min · Procedures: 15 min</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Skin cancer (BCC, SCC, melanoma) · Eczema & psoriasis · Acne · Rosacea · Seborrheic dermatitis · Cosmetic removals · SKs · Skin tags · Hyperhidrosis Botox · Botox cosmetic · Pediatric 14+ for acne only</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Under 14 · Pediatric for anything other than acne · New undiagnosed rashes · Hair loss · Genital dermatology · Hidradenitis suppurativa · Nail concerns</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Masson</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Consult/FU: 15 min · Procedures: 15 min · No follow-ups from other dermatologists</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Cosmetic removals · Cyst removal · Acne · Moles · Skin tags · AK · SK · Skin cancer</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Pediatrics · Psoriasis · Eczema · Rashes · Genital · Nail concerns · Hidradenitis · Hair loss · Follow-ups from other dermatologists</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Sandre</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">OHIP consult/FU: 10 min · Cosmetic/Botox/Mesotherapy: 15 min · Patch test reading: 5 min · Filler: 20 min · Follow template exactly</div>
+              <div class="alert teal" style="margin:4px 0;"><strong>Fridays:</strong> Patch testing → follow-ups → cosmetic consults → general consults (same week unfilled only)</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Suspicious mole · AK · SK · Skin cancer · Cosmetic removals · Botox/filler · Hyperhidrosis Botox (OHIP) · Male pattern hair loss (private pay) · Psoriasis/eczema for systemic/biologic therapy · Patch testing · Dr. Shelly Dunne referrals</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Pediatrics · Acne · Rosacea · Perioral dermatitis · General rashes · Genital · Nail · Hidradenitis · Full skin checks</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Ghossi</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Consult/FU: 15 min</div>
+              <div class="alert amber" style="margin:4px 0;">Hair loss follow-ups: task to Dr. Ghossi for approval before booking</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Most skin conditions · Acne · Skin cancer · Skin tag removal · Rashes (NYD) · Warts · Pediatric 14+ for acne only</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Under 14 · Pediatric for anything other than acne · Hair loss (new) · Possible melanoma · Psoriasis · Full skin checks · Genital · Sjögren · Hidradenitis</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Maximous</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Consult: 10 min · Follow-up: 5 min · Pediatric: age 14+</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Most skin conditions · Skin cancer (BCC, SCC, melanoma) · AK · Acne · Rosacea · Perioral dermatitis · All rashes except female genital · Male groin rash/lesions · Hidradenitis · Warts · Mole checks · Skin tags · Nail concerns · Age 14+</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Under 14 · Hair loss · Female genital dermatology</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;">
+              <div class="pc-name">Dr. Dill</div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Consult: 20 min · Follow-up: 15 min · Procedures: 30 min · Pediatric: age 14+ only</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Most skin & nail conditions · Skin/mole checks · Pediatrics (age 14+) · Hidradenitis suppurativa (OHIP) · Cosmetic removals · Melasma · Acne scars · Hyperpigmentation · Warts · Hair loss (private pay — patient must accept)</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Under 14 · Psoriasis/eczema requiring systemic/biologic therapy · Genital (check first) · Hair loss unless patient accepts private pay · Pregnancy skin conditions · Bullous/blistering disorders · Lupus · Wounds</div>
+            </div>
+
+            <div style="border:1px solid #F0EFE8;border-radius:8px;padding:10px;margin-bottom:8px;border-color:#0F6E56;">
+              <div class="pc-name">Dr. Alia Bosworth <span style="font-size:11px;color:#0F6E56;font-weight:600;">New</span></div>
+              <div class="pc-detail" style="color:#666;margin-bottom:4px;">Confirm appointment durations with clinic</div>
+              <div><span class="tag g">✓ Book</span></div>
+              <div class="do">Lesions · Biologics patients · Psoriasis · Eczema · AK · BCC</div>
+              <div><span class="tag r">✗ Do not book</span></div>
+              <div class="dont">Pediatrics · Hair loss · Genital areas</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="section" id="d-s4">
+          <div class="sec-head" onclick="toggleSec('d-s4')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Pediatric patients (any condition, no age limit): Dr. Winnicki only</li>
+              <li class="red">Dr. Dill & Dr. Maximous: 14+ only</li>
+              <li class="red">Dr. Ghossi & Dr. Chung: 14+ for acne ONLY</li>
+              <li class="red">Dr. Bosworth, Dr. Sandre, Dr. Masson: no pediatric patients</li>
+              <li class="red">Hair loss = always private pay. Never promise OHIP.</li>
+              <li class="red">Hair loss consult $250 + tax · Follow-up $100 + tax — collect before appointment</li>
+              <li class="red">Dr. Ghossi hair loss follow-ups: task for approval first</li>
+              <li class="red">Do not delay booking for centralized triage</li>
+              <li class="red">Dr. Sandre Fridays: patch testing → follow-ups → cosmetic → general (same week only)</li>
+              <li class="red">Dr. Sandre does not see acne, rosacea, perioral dermatitis</li>
+              <li class="red">Dr. Winnicki genital referrals: confirm before booking</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="d-s5">
+          <div class="sec-head" onclick="toggleSec('d-s5')">
+            <span class="sec-num sn-amber">5</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Unclear referral → task to dermatologist in Accuro OR ask Ester</div><div class="esc-when">Referral unclear after review · No clarification received → escalate to Clinic Manager (Anadi)</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======= UROLOGY ======= -->
+    <div class="card" data-id="urology" data-triage="true" data-adults="true"
+      data-search="urology mark noss di pier domenico vasectomy luts prostate hematuria kidney stones erectile uroflow pvr mackenzie">
+      <div class="card-top" onclick="toggleCard('urology')">
+        <div class="card-header">
+          <div class="card-icon icon-blue">🔬</div>
+          <div>
+            <div class="card-title">Urology</div>
+            <div class="card-sub">General Urology — Non-urgent referrals only</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-triage">Triage required</span>
+          <span class="badge b-adults">Adults only</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-urology">
+
+        <div class="section sec-open" id="u-s1">
+          <div class="sec-head" onclick="toggleSec('u-s1')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Scope & urgent policy</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert red"><strong>🚫 Urgent urology referrals are NOT seen at Unify Health.</strong> These must be declined. Examples: acute urinary retention · gross hematuria · testicular torsion · aggressive malignancy.</div>
+            <ul class="r" style="margin-top:6px;">
+              <li>General urology consults · LUTS · Prostate concerns</li>
+              <li>Hematuria (non-urgent only) · Kidney stones (non-urgent only)</li>
+              <li>Erectile dysfunction · Follow-up appointments</li>
+              <li>Vasectomy consults — Unify family medicine patients only, Dr. Di only, procedure at Mackenzie Health</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="u-s2">
+          <div class="sec-head" onclick="toggleSec('u-s2')">
+            <span class="sec-num sn-blue">2</span>
+            <span class="sec-title">Providers</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="pgrid">
+              <div class="pc"><div class="pc-name">Dr. Mark Noss</div><div class="pc-detail">Tue & Wed · Consult 20 min · Follow-up 15 min · Default for all new referrals</div></div>
+              <div class="pc"><div class="pc-name">Dr. Di Pier Domenico</div><div class="pc-detail">Mon or Fri (1–2x/month) · Also at Mackenzie Health · Consult 20 min · Follow-up 10 min · Vasectomy consults only (Unify family medicine patients)</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="u-s3">
+          <div class="sec-head" onclick="toggleSec('u-s3')">
+            <span class="sec-num sn-blue">3</span>
+            <span class="sec-title">Referral intake & triage</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert blue"><strong>All urology referrals must be triaged by a urologist before booking.</strong> Only Approved referrals may be booked.</div>
+            <div class="flow-step" style="margin-top:8px;"><span class="fs-num blue">1</span><span class="fs-text">Upload referral into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num blue">2</span><span class="fs-text">Add to Urology Waitlist · Document reason, provider, urgency</span></div>
+            <div class="flow-step"><span class="fs-num blue">3</span><span class="fs-text">Assign: Default → Dr. Mark Noss · Referral to Dr. Di → assign to Dr. Di · Referral to Dr. Kwong → escalate to Roha (no longer at Unify)</span></div>
+            <div class="flow-step"><span class="fs-num blue">4</span><span class="fs-text">Wait for urologist triage approval before contacting patient</span></div>
+          </div>
+        </div>
+
+        <div class="section" id="u-s4">
+          <div class="sec-head" onclick="toggleSec('u-s4')">
+            <span class="sec-num sn-blue">4</span>
+            <span class="sec-title">Approval statuses</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="status-grid">
+              <div class="sc app"><div class="sl">✓ Approved</div><div class="sd">Book with appropriate urologist per cross-coverage rules.</div></div>
+              <div class="sc app"><div class="sl">✓ Approved with UF & PVR</div><div class="sd">Book → right-click in Accuro → add UF/PVR status → confirm yellow circle appears. Missing yellow circle = booking error.</div></div>
+              <div class="sc pend"><div class="sl">⏳ Pending — docs needed</div><div class="sd">Roha reviews every Tuesday. Upload docs when received → forward to Dr. Noss → he updates status. Do not book.</div></div>
+              <div class="sc pend"><div class="sl">⏳ Pending — Dr. Di</div><div class="sd">No response received → send task to Roha. Do not book.</div></div>
+              <div class="sc dec"><div class="sl">✗ Declined</div><div class="sd">Do not book. Document and close.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="u-s5">
+          <div class="sec-head" onclick="toggleSec('u-s5')">
+            <span class="sec-num sn-blue">5</span>
+            <span class="sec-title">Cross-coverage & vasectomy rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>Dr. Noss approved → may book with Dr. Noss OR Dr. Di (if available)</li>
+              <li class="red">Dr. Di approved → must ONLY book with Dr. Di. Never with Dr. Noss.</li>
+              <li class="red">Vasectomy consults: Unify family medicine patients only — verify before booking</li>
+              <li class="red">Vasectomy consults: Dr. Di only — procedure at Mackenzie Health</li>
+              <li class="red">Inform patient: consult only at Unify, procedure at Mackenzie Health</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="u-s6">
+          <div class="sec-head" onclick="toggleSec('u-s6')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Never book without urologist approval</li>
+              <li class="red">Never book urgent urology referrals</li>
+              <li class="red">Never override approval source</li>
+              <li class="red">Never skip UF/PVR status when required</li>
+              <li class="red">Vasectomy: Unify family medicine patients only</li>
+              <li class="red">Dr. Kwong no longer at Unify — escalate to Roha</li>
+              <li class="red">If not documented, it did not happen</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="u-s7">
+          <div class="sec-head" onclick="toggleSec('u-s7')">
+            <span class="sec-num sn-amber">7</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Roha</div><div class="esc-when">Approval status unclear · Referral appears urgent · UF/PVR status missing · Provider assignment conflict · Dr. Di no response · Referral addressed to Dr. Kwong</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= ENT ======= -->
+    <div class="card" data-id="ent" data-triage="false" data-adults="true"
+      data-search="ent otolaryngology neil verma rickul vashney thyroid biopsy humber river hospital surgical eula age 17 annie">
+      <div class="card-top" onclick="toggleCard('ent')">
+        <div class="card-header">
+          <div class="card-icon icon-teal">👂</div>
+          <div>
+            <div class="card-title">ENT</div>
+            <div class="card-sub">Otolaryngology — Referral, Booking & Surgical Workflow</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly</span>
+          <span class="badge b-adults">Age 17+ only</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-ent">
+
+        <div class="section sec-open" id="e-s1">
+          <div class="sec-head" onclick="toggleSec('e-s1')">
+            <span class="sec-num sn-teal">1</span>
+            <span class="sec-title">Scope & providers</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>General ENT consultations & follow-ups</li>
+              <li>Thyroid-related ENT referrals</li>
+              <li>ENT surgical consultations</li>
+              <li>Humber River Hospital outpatient surgical clinic visits</li>
+            </ul>
+            <div class="pgrid" style="margin-top:8px;">
+              <div class="pc"><div class="pc-name">Dr. Neil Verma</div><div class="pc-detail">Tuesdays only · Consult/FU 15 min · Only ENT at Unify performing thyroid biopsies (at Humber River Hospital) · Age 17+ only</div></div>
+              <div class="pc"><div class="pc-name">Dr. Rickul Vashney</div><div class="pc-detail">Mondays & Fridays, 8am–4pm · Consult/FU 15 min · Age 17+ only</div></div>
+            </div>
+            <div class="alert red" style="margin-top:8px;"><strong>🚫 Age restriction:</strong> Dr. Verma and Dr. Vashney will only see patients above 16 (age 17+). Age must be verified before booking.</div>
+          </div>
+        </div>
+
+        <div class="section" id="e-s2">
+          <div class="sec-head" onclick="toggleSec('e-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake & waitlisting</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload the referral into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Review referral for completeness</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Add the patient to the ENT Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">4</span><span class="fs-text">Document: reason for referral, urgency, thyroid-related concerns, provider preference</span></div>
+          </div>
+        </div>
+
+        <div class="section" id="e-s3">
+          <div class="sec-head" onclick="toggleSec('e-s3')">
+            <span class="sec-num sn-amber">3</span>
+            <span class="sec-title">Provider assignment rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>General ENT referrals may be booked with either physician</li>
+              <li>Prioritize: first available appointment · patient availability · clinic efficiency</li>
+            </ul>
+            <div class="alert amber" style="margin-top:8px;"><strong>Thyroid referrals:</strong> should preferentially be booked with Dr. Neil Verma — the only ENT at Unify who performs thyroid biopsies. If Dr. Verma is unavailable within a reasonable timeframe, escalate to Annie before booking with another provider.</div>
+          </div>
+        </div>
+
+        <div class="section" id="e-s4">
+          <div class="sec-head" onclick="toggleSec('e-s4')">
+            <span class="sec-num sn-teal">4</span>
+            <span class="sec-title">Patient contact & booking</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Contact the patient</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">If reached: book consult or follow-up as per referral or task</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">If not reached: leave voicemail requesting callback · book only once patient returns the call</span></div>
+            <ul class="r" style="margin-top:6px;"><li class="red">Appointment duration must match provider standards — booking staff must not modify appointment lengths</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="e-s5">
+          <div class="sec-head" onclick="toggleSec('e-s5')">
+            <span class="sec-num sn-purple">5</span>
+            <span class="sec-title">ENT surgical bookings — Dr. Neil Verma</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert purple"><strong>Core principle:</strong> All ENT surgical bookings for Dr. Verma are completed by his clinic admin (Eula). Unify Health must not book surgical cases directly.</div>
+            <div class="sub-lbl">Surgical date confirmation</div>
+            <ul class="r">
+              <li>Dr. Verma may confirm a surgical date directly with the patient during the appointment</li>
+              <li>If the patient cannot confirm: provide clinic contact details — patient must contact Eula (Admin Assistant) to finalize</li>
+            </ul>
+            <div class="esc"><div class="esc-name">Dr. Verma's clinic — 101-666 St Clair Ave West, Toronto, ON M6C 1B1</div><div class="esc-when">Tel: 647-848-2236 · Fax: 416-281-0553</div></div>
+            <div class="sub-lbl">Required surgical documents</div>
+            <ul class="r">
+              <li>Surgical Consent Form</li>
+              <li>Pre-op Anesthetic Questionnaire</li>
+              <li>Pre-op History and Physical</li>
+            </ul>
+            <div class="sub-lbl">Document handling & submission (in order)</div>
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Print all required forms</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Have the patient sign all documents</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Scan signed documents into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num">4</span><span class="fs-text">Email copies (Surgical Consent, Pre-op Anesthetic Questionnaire, Pre-op History & Physical, surgical consultation note) to info@verma-ohns.ca</span></div>
+            <ul class="r" style="margin-top:6px;">
+              <li class="red">Do not book surgery in Accuro</li>
+              <li class="red">Do not submit incomplete documentation</li>
+            </ul>
+            <ul class="r">
+              <li>Pre-op appointments are usually 1 week prior to OR date, typically by phone</li>
+              <li>If anesthetic consultation is required, patient may need to attend the hospital in person</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="e-s6">
+          <div class="sec-head" onclick="toggleSec('e-s6')">
+            <span class="sec-num sn-blue">6</span>
+            <span class="sec-title">Humber River Hospital outpatient surgical clinic</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>All Humber River Hospital outpatient clinic bookings are handled by Dr. Verma's admin assistant — Unify Health does not book these directly</li>
+              <li>Dr. Verma usually confirms the hospital appointment date during the visit; if not, patient contacts Eula to finalize</li>
+            </ul>
+            <div class="sub-lbl">Booking request process</div>
+            <ul class="r">
+              <li>Email booking request to info@verma-ohns.ca with diagnosis, procedure, requested/confirmed date, and surgical consultation note</li>
+            </ul>
+            <div class="alert blue"><strong>Mandatory patient communication:</strong> Humber River Hospital appointment is booked externally · post-procedure follow-up occurs at Unify Health · patient must contact Unify to arrange follow-up. Provide the attached PDF to help patients locate the Outpatient Department Surgical Clinic.</div>
+          </div>
+        </div>
+
+        <div class="section" id="e-s7">
+          <div class="sec-head" onclick="toggleSec('e-s7')">
+            <span class="sec-num sn-amber">7</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Annie</div><div class="esc-when">Referral reason unclear · thyroid referral cannot be booked appropriately · provider availability conflicts with referral needs · unsure at any surgical step</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="e-s8">
+          <div class="sec-head" onclick="toggleSec('e-s8')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not delay ENT bookings unnecessarily</li>
+              <li class="red">Do not ignore thyroid referral preference for Dr. Verma</li>
+              <li class="red">Do not change appointment duration</li>
+              <li class="red">Do not override documented provider instructions</li>
+              <li class="red">Do not book ENT surgical cases directly</li>
+              <li class="red">Do not send incomplete surgical documentation</li>
+              <li class="red">Do not assume hospital appointments are confirmed without admin confirmation</li>
+              <li class="red">Do not skip patient education regarding follow-up location</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= INTERNAL MEDICINE ======= -->
+    <div class="card" data-id="internalmed" data-triage="false" data-adults="false"
+      data-search="internal medicine gim impreet gill phil garwood robyn goldstein tara tofighi patel alex nachman meagan mclavish markus jasleen hora shayne greenberg iron infusion weight management travel medicine lipid rx hub virtual">
+      <div class="card-top" onclick="toggleCard('internalmed')">
+        <div class="card-header">
+          <div class="card-icon icon-blue">🩺</div>
+          <div>
+            <div class="card-title">Internal Medicine</div>
+            <div class="card-sub">GIM — Referral, Triage, IV, Weight & Travel Medicine</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly (except 2 providers)</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-internalmed">
+
+        <div class="section sec-open" id="i-s1">
+          <div class="sec-head" onclick="toggleSec('i-s1')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Care modality (global rule)</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert red">All Internal Medicine physicians provide care <strong>virtually by default</strong>. Dr. Alex Nachman is the only IM physician who may see patients in clinic (any in-clinic availability communicated separately). Default all IM appointments to virtual unless explicitly instructed otherwise.</div>
+          </div>
+        </div>
+
+        <div class="section" id="i-s2">
+          <div class="sec-head" onclick="toggleSec('i-s2')">
+            <span class="sec-num sn-blue">2</span>
+            <span class="sec-title">Provider-specific booking rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="pgrid">
+              <div class="pc"><div class="pc-name">Dr. Impreet Gill / Dr. Phil Garwood</div><div class="pc-detail">Blood panels & IV/iron consults · IV consult/FU 15 min · Other GIM consult 30 min, FU 15 min</div></div>
+              <div class="pc"><div class="pc-name">Dr. Robyn Goldstein</div><div class="pc-detail">Weight management, GIM, iron/IV · Weight consult/FU 15 min · GIM consult 15 min · Iron consult/FU 15 min</div></div>
+              <div class="pc"><div class="pc-name">Dr. Tara Tofighi</div><div class="pc-detail">GIM & IV only at Unify (rheumatology referrals must be declined) · Consult 30 min, FU 15 min</div></div>
+              <div class="pc"><div class="pc-name">Dr. Patel</div><div class="pc-detail">Sees all GIM referrals · Consult 30 min, FU 15 min</div></div>
+              <div class="pc new"><div class="pc-name">Dr. Alex Nachman</div><div class="pc-detail">GIM · Triages own referrals — only Approved may be booked · Consult 30 min, FU 15 min · Virtual & in-clinic</div></div>
+              <div class="pc"><div class="pc-name">Dr. Meagan McLavish</div><div class="pc-detail">Weight mgmt (intentional only), lipid mgmt, IV/iron — does NOT see endocrinology (diabetes, thyroid, hormonal) — decline & use dedicated weight-mgmt slots</div></div>
+              <div class="pc"><div class="pc-name">Dr. Markus</div><div class="pc-detail">Anemia/iron only & travel medicine · Consult/FU 15 min · Onsite Wednesdays · Doesn't check EMR regularly — urgent issues to Farishta or Anadi</div></div>
+              <div class="pc"><div class="pc-name">Dr. Jasleen Hora</div><div class="pc-detail">Sees all GIM referrals · Consult 30 min</div></div>
+              <div class="pc new"><div class="pc-name">Dr. Shayne Greenberg</div><div class="pc-detail">IV consults & GIM · Triages own referrals · Consult 30 min</div></div>
+            </div>
+            <div class="alert red" style="margin-top:8px;"><strong>Former providers — DO NOT BOOK:</strong> Dr. Armin Abadeh · Dr. Sadiq</div>
+          </div>
+        </div>
+
+        <div class="section" id="i-s3">
+          <div class="sec-head" onclick="toggleSec('i-s3')">
+            <span class="sec-num sn-teal">3</span>
+            <span class="sec-title">Referral intake & triage rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload referral into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Identify primary reason: GIM / IV-iron / weight management / lipids / travel medicine</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Add patient to Internal Medicine Waitlist & assign provider per this SOP</span></div>
+            <div class="alert amber" style="margin-top:8px;"><strong>Providers who triage their own referrals:</strong> Dr. Alex Nachman & Dr. Shayne Greenberg — booking must not proceed until status is Approved.</div>
+            <ul class="r"><li class="grn">IV / iron referrals do NOT require triage — may be booked directly</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="i-s4">
+          <div class="sec-head" onclick="toggleSec('i-s4')">
+            <span class="sec-num sn-purple">4</span>
+            <span class="sec-title">Weight management referrals</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>May be booked with Dr. Robyn Goldstein or Dr. Meagan McLavish — book next available appointment</li>
+              <li>Dr. McLavish bookings must use dedicated weight-management slots</li>
+              <li class="red">Unintentional or unexplained weight loss must be booked as GIM, not weight management</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="i-s5">
+          <div class="sec-head" onclick="toggleSec('i-s5')">
+            <span class="sec-num sn-teal">5</span>
+            <span class="sec-title">Travel medicine consult workflow</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r"><li>Collect travel destination(s) and date(s) from patient</li></ul>
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Send a task to Dr. Markus, Farishta, and Anadi with destination(s) & date(s)</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Appointment date & modality confirmed by that team — may be virtual or in-clinic depending on Dr. Markus' schedule</span></div>
+            <div class="price-row">
+              <div class="price-c"><div class="price-amt">$100</div><div class="price-lbl">Travel medicine consult fee</div></div>
+            </div>
+            <ul class="r"><li>Vaccines are additional, charged separately, may be administered in clinic — inform patient of fees at time of booking</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="i-s6">
+          <div class="sec-head" onclick="toggleSec('i-s6')">
+            <span class="sec-num sn-teal">6</span>
+            <span class="sec-title">Iron infusion referral workflow</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r"><li>IV referrals may be booked directly — do not book infusion at consult stage</li></ul>
+            <div class="sub-lbl">After consult — Rx Hub coordination</div>
+            <ul class="r">
+              <li>Rx Hub contacts patient, dispenses iron, delivers to clinic, books infusion appointment</li>
+            </ul>
+            <div class="alert amber"><strong>Urgent iron infusion:</strong> if provider sends urgent task — book infusion urgently and fax referral letter + appointment details to Rx Hub.</div>
+            <ul class="r"><li class="red">All Rx Hub coordination issues must be escalated to the Clinic Manager</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="i-s7">
+          <div class="sec-head" onclick="toggleSec('i-s7')">
+            <span class="sec-num sn-teal">7</span>
+            <span class="sec-title">Insurance forms & prior provider transitions</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="price-row">
+              <div class="price-c"><div class="price-amt">$100</div><div class="price-lbl">Insurance form fee (weight mgmt or IV)</div></div>
+            </div>
+            <ul class="r">
+              <li>Forms processed only after payment — invoice emailed to patient, physician faxes forms, payment documented in Accuro</li>
+            </ul>
+            <div class="sub-lbl">Patient previously saw an IV provider no longer at Unify</div>
+            <ul class="r">
+              <li>Book with next available appropriate provider as a NEW consult</li>
+              <li>Create internal referral & document prior consult and provider departure</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="i-s8">
+          <div class="sec-head" onclick="toggleSec('i-s8')">
+            <span class="sec-num sn-amber">8</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Clinic Manager (Anadi)</div><div class="esc-when">Referral scope unclear · approval pending · urgent concern arises · Rx Hub coordination fails</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="i-s9">
+          <div class="sec-head" onclick="toggleSec('i-s9')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not book triage-based providers (Dr. Nachman, Dr. Greenberg) without approval</li>
+              <li class="red">Do not book endocrinology or rheumatology referrals</li>
+              <li class="red">Do not book unintentional weight loss as weight management</li>
+              <li class="red">Do not book iron infusions outside the Rx Hub workflow</li>
+              <li class="red">Do not book former providers (Dr. Abadeh, Dr. Sadiq)</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= ALLERGY & IMMUNOLOGY ======= -->
+    <div class="card" data-id="allergy" data-triage="false" data-adults="false"
+      data-search="allergy immunology weisser aberumand babak skin prick testing patch testing tuesday thursday template">
+      <div class="card-top" onclick="toggleCard('allergy')">
+        <div class="card-header">
+          <div class="card-icon icon-purple">🤧</div>
+          <div>
+            <div class="card-title">Allergy & Immunology</div>
+            <div class="card-sub">Referral Intake, Booking & Testing Workflow</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-allergy">
+
+        <div class="section sec-open" id="a-s1">
+          <div class="sec-head" onclick="toggleSec('a-s1')">
+            <span class="sec-num sn-teal">1</span>
+            <span class="sec-title">Providers & triage</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="pgrid">
+              <div class="pc tmpl"><div class="pc-name">Dr. Weisser</div><div class="pc-detail">Consult/FU 15 min · Tuesdays & Thursdays · Has an Accuro scheduling template — must be followed</div></div>
+              <div class="pc"><div class="pc-name">Dr. Aberumand (Babak)</div><div class="pc-detail">Consult 20 min, FU 15 min · Alternating monthly pattern: 1 day one month, then 3 days the following month, repeating</div></div>
+            </div>
+            <ul class="r" style="margin-top:6px;"><li class="grn">No triage required — both providers see all allergy referrals. Booking staff may proceed once referral intent is clear.</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="a-s2">
+          <div class="sec-head" onclick="toggleSec('a-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake & waitlisting</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload referral into Accuro & confirm completeness</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Add patient to Allergy / Immunology Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Assign provider based on availability & patient preference where possible</span></div>
+          </div>
+        </div>
+
+        <div class="section" id="a-s3">
+          <div class="sec-head" onclick="toggleSec('a-s3')">
+            <span class="sec-num sn-amber">3</span>
+            <span class="sec-title">Allergy testing</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>Testing offered: skin prick testing · patch testing (from mid-January 2026)</li>
+              <li class="red">Testing appointments may require up to 2 hours in clinic — allocate sufficient time</li>
+            </ul>
+            <div class="alert amber"><strong>Mandatory patient prep:</strong> inform patient that preparation instructions are sent via email/text and must be followed — failure to follow may delay or reschedule testing.</div>
+            <ul class="r"><li>Document testing type (skin prick / patch) in Accuro and note that extended time is required</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="a-s4">
+          <div class="sec-head" onclick="toggleSec('a-s4')">
+            <span class="sec-num sn-teal">4</span>
+            <span class="sec-title">Insurance & administrative forms</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="price-row">
+              <div class="price-c"><div class="price-amt">$100</div><div class="price-lbl">Insurance / administrative form fee</div></div>
+            </div>
+            <ul class="r"><li>Processed only after payment — invoice emailed, then forms completed, payment documented in Accuro</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="a-s5">
+          <div class="sec-head" onclick="toggleSec('a-s5')">
+            <span class="sec-num sn-amber">5</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Dan</div><div class="esc-when">Referral intent unclear · testing requirements uncertain · scheduling constraints cannot be resolved</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="a-s6">
+          <div class="sec-head" onclick="toggleSec('a-s6')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not modify appointment durations</li>
+              <li class="red">Do not book testing without informing patients of prep requirements</li>
+              <li class="red">Do not process insurance forms without payment</li>
+              <li class="red">Do not assume patch testing availability before mid-January 2026</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= PLASTIC SURGERY ======= -->
+    <div class="card" data-id="plastics" data-triage="true" data-adults="false"
+      data-search="plastic surgery vojvodic tate ester cosmetic consult ohip non-ohip consent">
+      <div class="card-top" onclick="toggleCard('plastics')">
+        <div class="card-header">
+          <div class="card-icon icon-teal">💉</div>
+          <div>
+            <div class="card-title">Plastic Surgery</div>
+            <div class="card-sub">Referral Intake, Triage & Cosmetic Consult Booking</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-triage">Triage required</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-plastics">
+
+        <div class="section sec-open" id="p-s1">
+          <div class="sec-head" onclick="toggleSec('p-s1')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Triage & approval</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert red">All Plastic Surgery referrals are triaged by <strong>Ester</strong>. Only referrals marked APPROVED may be booked. If anything is unclear, contact Ester directly and do not proceed until clarified.</div>
+            <div class="pgrid" style="margin-top:8px;">
+              <div class="pc"><div class="pc-name">Dr. Vojvodic</div><div class="pc-detail">Consult 20 min, FU 15 min · ~3 non-fixed days/month · schedule emailed 1 month in advance</div></div>
+              <div class="pc"><div class="pc-name">Dr. Tate</div><div class="pc-detail">Consult 30 min, FU 15 min · Tue consults · Wed AM OHIP procedures / PM consults+FU · Thu (half day) Non-OHIP procedures</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="p-s2">
+          <div class="sec-head" onclick="toggleSec('p-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake & waitlisting</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload referral into Accuro & add to Plastic Surgery Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Ester reviews and triages the referral</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Waitlist states: approval status · OHIP or Non-OHIP · specific booking instructions</span></div>
+            <ul class="r" style="margin-top:6px;"><li class="red">Booking staff must follow waitlist instructions exactly</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="p-s3">
+          <div class="sec-head" onclick="toggleSec('p-s3')">
+            <span class="sec-num sn-amber">3</span>
+            <span class="sec-title">OHIP vs Non-OHIP & cosmetic consults</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert amber"><strong>Mandatory:</strong> if a consult is Non-OHIP, the patient must be informed of the fee before booking and must agree before the appointment is booked.</div>
+            <ul class="r">
+              <li class="red">Once a cosmetic consult is approved & patient agrees, the appointment must be booked as "Cosmetic Consult" — not a regular consult (applies to both providers)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="p-s4">
+          <div class="sec-head" onclick="toggleSec('p-s4')">
+            <span class="sec-num sn-purple">4</span>
+            <span class="sec-title">Provider pricing rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="price-row">
+              <div class="price-c"><div class="price-amt">$125</div><div class="price-lbl">Cosmetic consult fee — both providers</div></div>
+            </div>
+            <div class="sub-lbl">Dr. Vojvodic</div>
+            <ul class="r">
+              <li>Goal: 1.5 days of consults, procedures on final clinic day if instructed & patient prefers</li>
+              <li class="red">Rely only on the quoted procedure cost sent via task — do not estimate or alter pricing</li>
+            </ul>
+            <div class="sub-lbl">Dr. Tate</div>
+            <ul class="r">
+              <li>Writes procedure pricing on paper for the patient to bring to reception</li>
+              <li class="red">Front desk must charge exactly as written</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="p-s5">
+          <div class="sec-head" onclick="toggleSec('p-s5')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Consent requirements</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="alert red">All consent forms must be signed <strong>before</strong> the patient enters any OR or procedure room. Clinical & front desk staff must verify consent is completed and uploaded into Accuro — patients must not proceed to a procedure area without signed consent.</div>
+          </div>
+        </div>
+
+        <div class="section" id="p-s6">
+          <div class="sec-head" onclick="toggleSec('p-s6')">
+            <span class="sec-num sn-amber">6</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Ester (primary) → Clinic Manager (Anadi) if further clarification needed</div><div class="esc-when">Booking concerns · unclear instructions · deviations</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="p-s7">
+          <div class="sec-head" onclick="toggleSec('p-s7')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not book unapproved Plastic Surgery referrals</li>
+              <li class="red">Do not assume OHIP or Non-OHIP status</li>
+              <li class="red">Do not book cosmetic consults as regular consults</li>
+              <li class="red">Do not estimate or modify procedure pricing</li>
+              <li class="red">Do not allow patients into procedure rooms without signed consent</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= OCULOPLASTIC SURGERY ======= -->
+    <div class="card" data-id="oculoplastic" data-triage="true" data-adults="false"
+      data-search="oculoplastic surgery jagan leung same day procedure">
+      <div class="card-top" onclick="toggleCard('oculoplastic')">
+        <div class="card-header">
+          <div class="card-icon icon-blue">👁️</div>
+          <div>
+            <div class="card-title">Oculoplastic Surgery</div>
+            <div class="card-sub">Referral Intake, Triage & Same-Day Procedure Booking</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-triage">Triage required</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-oculoplastic">
+
+        <div class="section sec-open" id="o-s1">
+          <div class="sec-head" onclick="toggleSec('o-s1')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Providers, triage & approval</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="pgrid">
+              <div class="pc"><div class="pc-name">Dr. Jagan</div><div class="pc-detail">Consult/FU 10 min · Procedures same day (end of day) · Works once every 3 months</div></div>
+              <div class="pc"><div class="pc-name">Dr. Leung</div><div class="pc-detail">Consult 15 min, FU 10 min · Procedures same day (end of day) · Currently one Monday/month, expected to increase</div></div>
+            </div>
+            <div class="alert red" style="margin-top:8px;">Both providers triage their own referrals. Only referrals marked APPROVED may be booked. If approval status is unclear, do not proceed — escalate to Ashley.</div>
+          </div>
+        </div>
+
+        <div class="section" id="o-s2">
+          <div class="sec-head" onclick="toggleSec('o-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake & waitlisting</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload referral into Accuro & add to Oculoplastic Surgery Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Assign referral to the appropriate provider</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Provider reviews and updates referral status — booking proceeds only after approval is documented</span></div>
+          </div>
+        </div>
+
+        <div class="section" id="o-s3">
+          <div class="sec-head" onclick="toggleSec('o-s3')">
+            <span class="sec-num sn-amber">3</span>
+            <span class="sec-title">Same-day procedure workflow</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>Both providers may perform procedures on the same day as the consult, typically end of clinic day</li>
+              <li class="red">Allow flexibility in scheduling — avoid over-booking that would prevent same-day procedures</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="o-s4">
+          <div class="sec-head" onclick="toggleSec('o-s4')">
+            <span class="sec-num sn-purple">4</span>
+            <span class="sec-title">Procedure pricing & patient communication</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li>Procedure costs are determined by the physician, who informs the patient after the consultation</li>
+              <li class="red">Booking & front desk staff must not estimate or quote procedure costs — follow physician's instructions on billing and consent</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="o-s5">
+          <div class="sec-head" onclick="toggleSec('o-s5')">
+            <span class="sec-num sn-amber">5</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Ashley</div><div class="esc-when">Approval status unclear · scheduling conflicts due to limited clinic days · same-day procedure workflow impacted</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="o-s6">
+          <div class="sec-head" onclick="toggleSec('o-s6')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not book unapproved Oculoplastic referrals</li>
+              <li class="red">Do not modify appointment durations</li>
+              <li class="red">Do not quote or estimate procedure pricing</li>
+              <li class="red">Do not ignore provider-specific schedules</li>
+              <li class="red">Do not over-book clinics in a way that prevents same-day procedures</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ======= SPORTS MEDICINE ======= -->
+    <div class="card" data-id="sportsmed" data-triage="false" data-adults="false"
+      data-search="sports medicine physiatry physiatrist dr fine dr pollock emr template">
+      <div class="card-top" onclick="toggleCard('sportsmed')">
+        <div class="card-header">
+          <div class="card-icon icon-purple">🏃</div>
+          <div>
+            <div class="card-title">Sports Medicine & Physiatry</div>
+            <div class="card-sub">Referral Intake & Template-Based Booking</div>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge b-locked">LOCKED</span>
+          <span class="badge b-direct">Book directly</span>
+        </div>
+        <div class="expand-hint">▼ Tap to expand</div>
+      </div>
+      <div class="card-body" id="body-sportsmed">
+
+        <div class="section sec-open" id="s-s1">
+          <div class="sec-head" onclick="toggleSec('s-s1')">
+            <span class="sec-num sn-teal">1</span>
+            <span class="sec-title">Providers & triage</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="pgrid">
+              <div class="pc tmpl"><div class="pc-name">Dr. Fine (Sports Medicine)</div><div class="pc-detail">Wednesdays & Fridays · Scheduling template always updated in Accuro — rely on the EMR template</div></div>
+              <div class="pc tmpl"><div class="pc-name">Dr. Pollock (Physiatry)</div><div class="pc-detail">Every Thursday · Follow his Accuro scheduling template</div></div>
+            </div>
+            <ul class="r" style="margin-top:6px;"><li class="grn">No triage required for either specialty — patients may be booked directly once the referral is received and uploaded</li></ul>
+          </div>
+        </div>
+
+        <div class="section" id="s-s2">
+          <div class="sec-head" onclick="toggleSec('s-s2')">
+            <span class="sec-num sn-teal">2</span>
+            <span class="sec-title">Referral intake & appointment types</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="flow-step"><span class="fs-num">1</span><span class="fs-text">Upload referral into Accuro</span></div>
+            <div class="flow-step"><span class="fs-num">2</span><span class="fs-text">Add patient to the Sports Medicine / Physiatry Waitlist</span></div>
+            <div class="flow-step"><span class="fs-num">3</span><span class="fs-text">Proceed with booking according to provider availability</span></div>
+            <ul class="r" style="margin-top:6px;">
+              <li>Dr. Fine — new consults: 50 minutes · Follow-ups: 1 follow-up appointment at end of day (EOD)</li>
+              <li>Dr. Pollock — durations per his Accuro template</li>
+              <li class="red">Booking staff must not modify appointment lengths</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="s-s3">
+          <div class="sec-head" onclick="toggleSec('s-s3')">
+            <span class="sec-num sn-amber">3</span>
+            <span class="sec-title">Booking rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Always follow Dr. Fine's and Dr. Pollock's Accuro scheduling templates</li>
+              <li class="red">Do not override or manually alter time slots</li>
+              <li class="red">Book only within the defined template</li>
+              <li class="red">Do not add additional follow-ups beyond what is indicated</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section" id="s-s4">
+          <div class="sec-head" onclick="toggleSec('s-s4')">
+            <span class="sec-num sn-amber">4</span>
+            <span class="sec-title">Escalation</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="esc"><div class="esc-name">Dan</div><div class="esc-when">EMR template unclear or unavailable · scheduling conflicts arise · referral details incomplete</div></div>
+          </div>
+        </div>
+
+        <div class="section" id="s-s5">
+          <div class="sec-head" onclick="toggleSec('s-s5')">
+            <span class="sec-num sn-red">!</span>
+            <span class="sec-title">Non-negotiable rules</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <ul class="r">
+              <li class="red">Do not triage Sports Medicine or Physiatry referrals</li>
+              <li class="red">Do not modify appointment durations</li>
+              <li class="red">Do not book outside the Accuro template</li>
+              <li class="red">Do not add additional appointments without instruction</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results" id="no-results" style="display:none;">No specialties match your search.</div>
+</div>
+
+<footer>Unify Health · Specialty SOP Reference · Updated July 2026 · For internal staff use only</footer>
+
+<script>
+let activeFilter = 'all';
+
+function toggleCard(id) {
+  const card = document.querySelector(`[data-id="${id}"]`);
+  card.classList.toggle('open');
+}
+
+function toggleSec(id) {
+  const sec = document.getElementById(id);
+  sec.classList.toggle('sec-open');
+}
+
+function setF(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filter();
+}
+
+function filter() {
+  const q = document.getElementById('search').value.toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    const search = card.dataset.search;
+    const triage = card.dataset.triage === 'true';
+    const adults = card.dataset.adults === 'true';
+    const matchQ = !q || search.includes(q) || card.querySelector('.card-title').textContent.toLowerCase().includes(q);
+    let matchF = true;
+    if (activeFilter === 'triage') matchF = triage;
+    if (activeFilter === 'direct') matchF = !triage;
+    if (activeFilter === 'adults') matchF = adults;
+    card.style.display = (matchQ && matchF) ? '' : 'none';
+    if (matchQ && matchF) visible++;
+  });
+  document.getElementById('no-results').style.display = visible === 0 ? '' : 'none';
+}
+</script>
+</body>
+</html>
