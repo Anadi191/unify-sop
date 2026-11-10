@@ -147,7 +147,7 @@ footer{text-align:center;padding:2rem;font-size:12px;color:#aaa;}
 
     <!-- ======= CARDIOLOGY ======= -->
     <div class="card" data-id="cardiology" data-triage="false" data-adults="true"
-      data-search="cardiology ecg echo holter stress gxt ep electrophysiology vinay garg ozier katsikeris kushwaha yared kumar ankit garg cardiac diagnostics echocardiogram">
+      data-search="cardiology ecg echo holter stress gxt ep electrophysiology vinay garg ozier katsikeris kushwaha yared kumar cardiac diagnostics echocardiogram">
       <div class="card-top" onclick="toggleCard('cardiology')">
         <div class="card-header">
           <div class="card-icon icon-teal">🫀</div>
@@ -164,6 +164,33 @@ footer{text-align:center;padding:2rem;font-size:12px;color:#aaa;}
         <div class="expand-hint">▼ Tap to expand</div>
       </div>
       <div class="card-body" id="body-cardiology">
+
+        <div class="section sec-open" id="c-s0">
+          <div class="sec-head" onclick="toggleSec('c-s0')">
+            <span class="sec-num sn-teal">0</span>
+            <span class="sec-title">Clinic locations & booking</span>
+            <span class="sec-chev">▼</span>
+          </div>
+          <div class="sec-body">
+            <div class="sub-lbl">Leaside (in person)</div>
+            <ul class="r">
+              <li>All cardiologists work here, in person.</li>
+              <li>All services are offered: consults, ECG, echo, stress echo, GXT, and Holter.</li>
+            </ul>
+            <div class="sub-lbl">Sault Ste. Marie (SSM)</div>
+            <ul class="r">
+              <li>Cardiac diagnostic testing only: ECG, echo, and Holter.</li>
+              <li>Consultations are offered virtually.</li>
+              <li>Virtual consults: Dr. Vinay Garg, Dr. Daniel Ozier, Dr. Sameer Kushwaha, and Dr. Reha Kumar.</li>
+            </ul>
+            <div class="sub-lbl">Which provider to book</div>
+            <ul class="r">
+              <li><strong>EP consults from SSM referrals:</strong> Dr. Vinay Garg or Dr. Daniel Ozier</li>
+              <li><strong>General consults:</strong> Dr. Vinay Garg, Dr. Daniel Ozier, Dr. Sameer Kushwaha, Dr. Reha Kumar, or Dr. Kibar Yared</li>
+              <li class="red">Do not book general consults with Dr. Katsikeris</li>
+            </ul>
+          </div>
+        </div>
 
         <div class="section sec-open" id="c-s1">
           <div class="sec-head" onclick="toggleSec('c-s1')">
@@ -248,13 +275,12 @@ footer{text-align:center;padding:2rem;font-size:12px;color:#aaa;}
           <div class="sec-body">
             <div class="sub-lbl">Standard: New consult 30 min · Follow-up 15 min</div>
             <div class="pgrid">
-              <div class="pc ep"><div class="pc-name">Dr. Vinay Garg</div><div class="pc-detail">EP consults (electrophysiology & arrhythmia) · Wednesdays · 30/15 min · Billing: Holter, BP, ECG, GXT</div></div>
-              <div class="pc ep"><div class="pc-name">Dr. Daniel Ozier</div><div class="pc-detail">EP consults · ~3 wks/month, 2 days/wk · 30/15 min · Michael Garron Hospital follow-ups</div></div>
-              <div class="pc"><div class="pc-name">Dr. Sameer Kushwaha</div><div class="pc-detail">Tue & Thu · 30/15 min · Michael Garron follow-ups · Billing: Echo, Stress Echo</div></div>
-              <div class="pc"><div class="pc-name">Dr. Reha Kumar</div><div class="pc-detail">30/15 min</div></div>
+              <div class="pc ep"><div class="pc-name">Dr. Vinay Garg</div><div class="pc-detail">EP consults (electrophysiology & arrhythmia) · Mondays · 30/15 min · Virtual for SSM clinic · Billing: Holter, BP, ECG, GXT</div></div>
+              <div class="pc ep"><div class="pc-name">Dr. Daniel Ozier</div><div class="pc-detail">EP consults · ~3 wks/month, 2 days/wk · 30/15 min · Virtual for SSM clinic · Michael Garron Hospital follow-ups</div></div>
+              <div class="pc"><div class="pc-name">Dr. Sameer Kushwaha</div><div class="pc-detail">Tue & Thu · 30/15 min · Virtual for SSM clinic · Michael Garron follow-ups · Billing: Echo, Stress Echo</div></div>
+              <div class="pc"><div class="pc-name">Dr. Reha Kumar</div><div class="pc-detail">30/15 min · Virtual for SSM clinic</div></div>
               <div class="pc tmpl"><div class="pc-name">Dr. Katsikeris</div><div class="pc-detail">Mon & some Tue · Follow Accuro template exactly — do not override</div></div>
-              <div class="pc"><div class="pc-name">Dr. Kibar Yared</div><div class="pc-detail">Monthly · Consult 20 min · Follow-up 10 min</div></div>
-              <div class="pc new"><div class="pc-name">Dr. Ankit Garg</div><div class="pc-detail">Follow-ups only — no new consults</div></div>
+              <div class="pc"><div class="pc-name">Dr. Kibar Yared</div><div class="pc-detail">Leaside (in person) · Monthly · General cardiology referrals · Consult 20 min · Follow-up 10 min</div></div>
             </div>
             <div class="alert amber" style="margin-top:8px;">EP consults: Dr. Vinay Garg & Dr. Ozier only. Dr. Katsikeris: always follow the Accuro template.</div>
           </div>
